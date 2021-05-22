@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from config import settings
+from config.config import settings
 from starlette.middleware.cors import CORSMiddleware
 from api.api_v1.api import api_router
+from api.api_v1.services.database import connect_db, close_db
 import uvicorn
 
 app = FastAPI(
@@ -21,7 +22,8 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
+app.add_event_handler("startup", connect_db)
+app.add_event_handler("shutdown", close_db)
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
