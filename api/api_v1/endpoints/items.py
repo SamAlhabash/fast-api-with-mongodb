@@ -7,7 +7,7 @@ from api.api_v1.services.database import get_db
 import api.api_v1.services.items_service as item_service
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from api.api_v1.models.item import ItemBase, Item, ItemQueryParams
-from api.api_v1.helpers.not_found_helper import not_found_message
+from api.api_v1.helpers.http_detail_messages_helper import not_found_message
 
 router = APIRouter()
 
