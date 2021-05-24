@@ -6,10 +6,16 @@ from fastapi.params import Depends, Body
 from api.api_v1.services.database import get_db
 import api.api_v1.services.items_service as item_service
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from api.api_v1.models.item import ItemBase,Item, ItemQueryParams
+from api.api_v1.models.item import ItemBase, Item, ItemQueryParams
 from api.api_v1.helpers.not_found_helper import not_found_message
 
 router = APIRouter()
+
+
+@router.get("/", response_model=PaginatedList[Item])
+async def get_all_items(db: AsyncIOMotorDatabase = Depends(get_db), query: ItemQueryParams = Depends()):
+
+    return await item_service.get_all_items(db=db['items'], query=query)
 
 
 @router.get("/{id}", response_model=Item)
@@ -21,12 +27,6 @@ async def get_item(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
         return item
 
     raise HTTPException(404, detail=not_found_message(id, 'Item'))
-
-
-@router.get("/", response_model=PaginatedList)
-async def get_all_items(db: AsyncIOMotorDatabase = Depends(get_db), query: ItemQueryParams = Depends()):
-
-    return await item_service.get_all_items(db=db['items'], query=query)
 
 
 @router.post("/", status_code=201, response_model=Item)
@@ -49,3 +49,5 @@ async def post_item(id: str, db: AsyncIOMotorDatabase = Depends(get_db), item: I
 
     if updated_result.modified_count == 0:
         raise HTTPException(400, detail="Unknown error occured")
+
+    return

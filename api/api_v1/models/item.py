@@ -5,11 +5,17 @@ from fastapi import Query
 
 
 class ItemBase(BaseModel):
-    message: str = Field(...,min_length=1, max_length= 100)
+    message: str = Field(..., min_length=1, max_length=100)
     second_message: Optional[str] = Field("No message was entered")
 
+
 class Item(BaseID, ItemBase):
+    """
+    Item with ID. Represents Item in DB.
+
+    """
     pass
+
 
 class ItemQueryParams:
     def __init__(self,
