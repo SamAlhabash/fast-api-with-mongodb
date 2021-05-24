@@ -2,7 +2,8 @@ from api.api_v1.models.paginated_list import PaginatedList
 from api.api_v1.models.pagination import Pagination
 from motor.motor_asyncio import AsyncIOMotorCollection
 from math import floor
-from ..models.item import ItemIn, ItemInDb, ItemQueryParams
+from ..models.item import ItemBase, Item, ItemQueryParams
+from ..helpers.json_encoder_with_id import to_json_with_ID
 
 
 async def get_all_items(db: AsyncIOMotorCollection, query: ItemQueryParams):
@@ -18,13 +19,13 @@ async def get_all_items(db: AsyncIOMotorCollection, query: ItemQueryParams):
     return PaginatedList(list=items_list, pagination=pagination)
 
 
-async def create_item(db: AsyncIOMotorCollection, item: ItemIn) -> ItemInDb:
-    result = await db.insert_one(item.to_json_with_id())
+async def create_item(db: AsyncIOMotorCollection, item: ItemBase) -> Item:
+    result = await db.insert_one(to_json_with_ID(item))
     inserted_item = await db.find_one({"_id": str(result.inserted_id)})
 
     return inserted_item
 
-async def get_item_by_id(db: AsyncIOMotorCollection, id: str) -> ItemInDb:
+async def get_item_by_id(db: AsyncIOMotorCollection, id: str) -> Item:
     item = await db.find_one({"_id": id})
     return item
 

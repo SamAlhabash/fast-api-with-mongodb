@@ -1,14 +1,11 @@
-
-
-from typing import Any
-from api.api_v1.models.item import ItemIn, ItemInDb
+from api.api_v1.models.item import Item
 from pydantic.main import BaseModel
 from api.api_v1.models.pagination import Pagination
 
 
 class PaginatedList(BaseModel):
 
-    list: list[ItemInDb]
+    list: list[Item]
     pagination: Pagination
 
     

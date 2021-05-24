@@ -1,12 +1,10 @@
-
-
 from pydantic.main import BaseModel
 
 
 class Pagination(BaseModel):
 
-    total_count : int
-    page_size : int 
+    total_count: int
+    page_size: int
     total_pages: int
     current_page: int
 
@@ -18,7 +16,7 @@ class Pagination(BaseModel):
 
 
 class testPagination(BaseModel):
-    total_count: int 
-    page_size: int 
-    total_pages: int 
-    current_page: int 
+    total_count: int
+    page_size: int
+    total_pages: int
+    current_page: int

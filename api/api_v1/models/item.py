@@ -1,33 +1,15 @@
-from bson.objectid import ObjectId
 from pydantic import BaseModel, Field
-from .base import BaseClass, BaseIn, PyObjectId
+from .base import BaseID
 from typing import Optional
 from fastapi import Query
-from bson import ObjectId
-from fastapi.encoders import jsonable_encoder
 
 
-class ItemInDb(BaseClass):
-    message: str = Field(...)
+class ItemBase(BaseModel):
+    message: str = Field(...,min_length=1, max_length= 100)
     second_message: Optional[str] = Field("No message was entered")
 
-
-class ItemIn(BaseIn):
-    message: str = Field(..., min_length=1)
-    second_message: Optional[str] = Field("No message was entered")
-
-    
-
-
-class ItemPut(BaseModel):
-    message: str = Field(..., min_length=1)
-    second_message: Optional[str] = Field(None)
-
-
-class ItemPatch(BaseModel):
-    message: Optional[str] = Field(None, min_length=1)
-    second_message: Optional[str] = Field(None)
-
+class Item(BaseID, ItemBase):
+    pass
 
 class ItemQueryParams:
     def __init__(self,
