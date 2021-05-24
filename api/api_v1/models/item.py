@@ -4,12 +4,12 @@ from typing import Optional
 from fastapi import Query
 
 
-class ItemBase(BaseModel):
+class Item(BaseModel):
     message: str = Field(..., min_length=1, max_length=100)
     second_message: Optional[str] = Field("No message was entered")
 
 
-class Item(BaseID, ItemBase):
+class ItemSchema(BaseID, Item):
     """
     Item with ID. Represents Item in DB.
     """
