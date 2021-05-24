@@ -1,4 +1,4 @@
-from api.api_v1.models.paginated_list import PaginatedList
+from api.api_v1.models.core_models.paginated_list import PaginatedList
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import HTTPException
 from fastapi import APIRouter

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from .base import BaseID
+from .core_models.base import BaseID
 from typing import Optional
 from fastapi import Query
 

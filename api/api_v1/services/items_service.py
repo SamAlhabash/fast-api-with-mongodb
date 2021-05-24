@@ -1,5 +1,5 @@
-from api.api_v1.models.paginated_list import PaginatedList
-from api.api_v1.models.pagination import Pagination
+from api.api_v1.models.core_models.paginated_list import PaginatedList
+from api.api_v1.models.core_models.pagination import Pagination
 from motor.motor_asyncio import AsyncIOMotorCollection
 from math import floor
 from ..models.item import ItemBase, Item, ItemQueryParams
