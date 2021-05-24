@@ -12,7 +12,6 @@ class ItemBase(BaseModel):
 class Item(BaseID, ItemBase):
     """
     Item with ID. Represents Item in DB.
-
     """
     pass
 

@@ -6,7 +6,12 @@ from typing import Generic, TypeVar
 
 T = TypeVar('T')
 
+
 class PaginatedList(GenericModel, Generic[T]):
 
+    """
+    A class that provides a Paginated List Model to return in HTTP response.
+    """
+
     list: list[T]
-    pagination: Pagination 
+    pagination: Pagination

@@ -4,6 +4,10 @@ from ..helpers.object_id_helper import str_object_id
 
 
 class BaseID(BaseModel):
+
+    """
+    Base class for any model that requires a mongoDB ID.
+    """
     id: str = Field(default_factory=str_object_id, alias="_id")
 
     class Config:
