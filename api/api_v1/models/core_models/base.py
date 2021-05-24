@@ -1,6 +1,6 @@
 from pydantic.fields import Field
 from pydantic.main import BaseModel
-from ..helpers.object_id_helper import str_object_id
+from ...helpers.object_id_helpers import str_object_id
 
 
 class BaseID(BaseModel):

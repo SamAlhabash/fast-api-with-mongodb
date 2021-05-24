@@ -3,7 +3,7 @@ from api.api_v1.models.core_models.pagination import Pagination
 from motor.motor_asyncio import AsyncIOMotorCollection
 from math import floor
 from ..models.item import ItemBase, Item, ItemQueryParams
-from ..helpers.json_encoder_with_id import to_json_with_ID
+from ..helpers.object_id_helpers import to_json_with_ID
 
 
 async def get_all_items(db: AsyncIOMotorCollection, query: ItemQueryParams):
