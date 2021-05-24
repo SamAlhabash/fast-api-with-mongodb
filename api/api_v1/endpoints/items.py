@@ -1,33 +1,53 @@
-from bson.objectid import ObjectId
-from fastapi import APIRouter
-from fastapi.datastructures import Default
-from fastapi.param_functions import Query
+from typing import Union
+from api.api_v1.models.pagination import testPagination
+from api.api_v1.models.paginated_list import PaginatedList
 from fastapi.encoders import jsonable_encoder
-from fastapi.params import Depends
-from starlette.responses import JSONResponse
+from fastapi.exceptions import HTTPException
+from fastapi import APIRouter
+from fastapi.params import Depends, Body
 from api.api_v1.services.database import get_db
 import api.api_v1.services.items_service as item_service
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from api.api_v1.models.item import ItemInDb
-from typing import Optional
+from api.api_v1.models.item import ItemIn, ItemInDb, ItemPut, ItemQueryParams
+from api.api_v1.helpers.not_found_helper import not_found_message
 
 router = APIRouter()
 
 
-test_dict = {}
-@router.get("/")
-async def get_all_items(
-    page_number: Optional[int] = Query(default=1, ge=1),
-    page_size: Optional[int] = Query(default=25, le=1000),
-    db: AsyncIOMotorDatabase = Depends(get_db)
-):
+@router.get("/{id}", response_model=ItemInDb)
+async def get_item(id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
 
-    return await item_service.get_all_items(db = db['items'], page_number= page_number, page_size= page_size)
+    item = await item_service.get_item_by_id(db['items'], id)
+
+    if item is not None:
+        return item
+
+    raise HTTPException(404, detail=not_found_message(id, 'Item'))
 
 
-@router.post("/")
-async def post(db: AsyncIOMotorDatabase = Depends(get_db)):
-    items_db = db['items']
-    item = jsonable_encoder(ItemInDb())
-    print(item)
-    await items_db.insert_one(item)
+@router.get("/", response_model=PaginatedList)
+async def get_all_items(db: AsyncIOMotorDatabase = Depends(get_db), query: ItemQueryParams = Depends()):
+
+    return await item_service.get_all_items(db=db['items'], query=query)
+
+
+@router.post("/", status_code=201, response_model=ItemInDb)
+async def post_item(db: AsyncIOMotorDatabase = Depends(get_db), item: ItemIn = Body(...)):
+
+    inserted_item = await item_service.create_item(db['items'], item)
+    return inserted_item
+
+
+@router.put("/{id}", status_code=200)
+async def post_item(id: str, db: AsyncIOMotorDatabase = Depends(get_db), item: ItemPut = Body(...)):
+
+    item = jsonable_encoder(item)
+
+    updated_result = await db['items'].update_one({"_id": id}, {"$set": item})
+
+    if updated_result.matched_count == 0:
+        raise HTTPException(
+            404, detail=not_found_message(id, 'Item'))
+
+    if updated_result.modified_count == 0:
+        raise HTTPException(400, detail="Unknown error occured")

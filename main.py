@@ -9,8 +9,9 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     description=settings.PROJECT_DESC,
     version=settings.PROJECT_VERSION,
-    openapi_url=f"{settings.API_V1_STR}/open-api.json",
-    docs_url=f"{settings.API_V1_STR}/swagger",
+    openapi_url="/open-api.json",
+    docs_url="/swagger",
+    redoc_url="/redoc"
 )
 
 if settings.BACKEND_CORS_ORIGINS:

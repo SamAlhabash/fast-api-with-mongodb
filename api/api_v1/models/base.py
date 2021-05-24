@@ -1,6 +1,7 @@
 from bson import ObjectId
 from pydantic.main import BaseModel
 from pydantic import Field
+from fastapi.encoders import jsonable_encoder
 
 
 class PyObjectId(ObjectId):
@@ -10,9 +11,7 @@ class PyObjectId(ObjectId):
 
     @classmethod
     def validate(cls, v):
-        if not ObjectId.is_valid(v):
-            raise ValueError("Invalid objectid")
-        return ObjectId(v)
+        return ObjectId()
 
     @classmethod
     def __modify_schema__(cls, field_schema):
@@ -26,3 +25,14 @@ class BaseClass(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+
+        
+
+
+class BaseIn(BaseModel):
+
+
+    def to_json_with_id(self):
+        result = jsonable_encoder(self)
+        result["_id"] = str(ObjectId())
+        return result
