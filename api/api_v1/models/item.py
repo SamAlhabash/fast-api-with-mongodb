@@ -15,6 +15,10 @@ class ItemSchema(BaseID, Item):
     """
     pass
 
+class PutItem(BaseModel):
+    message: Optional[str] = Field(min_length=1, max_length=100)
+    second_message: Optional[str] = Field()
+
 
 class ItemQueryParams:
     def __init__(self,
