@@ -1,7 +1,7 @@
 from api.api_v1.models.core_models.paginated_list import PaginatedList
 from api.api_v1.models.core_models.pagination import Pagination
 from motor.motor_asyncio import AsyncIOMotorCollection
-from math import floor
+from ..helpers.pagination_helper import get_total_pages
 from ..models.item import Item, ItemToReturn, ItemQueryParams, PutItem
 from ..helpers.object_id_helpers import to_json_with_ID
 from pymongo.results import UpdateResult
@@ -47,8 +47,3 @@ async def patch_item(db: AsyncIOMotorCollection, id: str, item: PutItem) -> Upda
 async def delete_item(db: AsyncIOMotorCollection, id: str) -> UpdateResult:
     return await db.update_one({"_id": id}, {"$set": {'is_deleted': True}})
 
-
-def get_total_pages(total_count: int, page_size: int) -> int:
-    return total_count / page_size if \
-        floor(total_count / page_size) == (total_count / page_size) \
-        else floor(total_count / page_size) + 1

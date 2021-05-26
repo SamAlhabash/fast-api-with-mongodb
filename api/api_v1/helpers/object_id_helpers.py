@@ -8,6 +8,6 @@ def to_json_with_ID(obj: object) -> dict:
     obj["is_deleted"] = False
     return obj
 
-
+    
 def str_object_id() -> str:
     return str(ObjectId())
