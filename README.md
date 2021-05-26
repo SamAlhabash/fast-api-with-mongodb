@@ -29,7 +29,7 @@ and then go to [localhost:8000/swagger](http://localhost:8000/swagger) to view t
 ![Example Image of openAPI docs](https://github.com/SamAlhabash/fast-api-with-mongodb/blob/main/github_docs/swagger-example.png?raw=true)
 
 ## TODO 
-* Add Authentication 
+* Add Authentication and Authorization
 * Refactor MongoDBConnections to allow different Database names
 * Design and implement a MongoDB Query Builder. 
 * Design and run tests. 
