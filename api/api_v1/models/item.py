@@ -9,11 +9,16 @@ class Item(BaseModel):
     second_message: Optional[str] = Field("No message was entered")
 
 
-class ItemSchema(BaseID, Item):
+class ItemToReturn(BaseID, Item):
+    pass
+
+
+class ItemSchema(ItemToReturn):
+    is_deleted: Optional[bool] = Field(False)
     """
     Item with ID. Represents Item in DB.
     """
-    pass
+
 
 class PutItem(BaseModel):
     message: Optional[str] = Field(min_length=1, max_length=100)
