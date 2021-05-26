@@ -26,7 +26,7 @@ python main.py
 
 and then go to [localhost:8000/swagger](http://localhost:8000/swagger) to view the auto-generated docs.
 
-![Example Image of openAPI docs](https://github.com/SamAlhabash/fast-api-with-mongodb/blob/main/github_docs/swagger-example.png&raw=true)
+![Example Image of openAPI docs](https://github.com/SamAlhabash/fast-api-with-mongodb/blob/main/github_docs/swagger-example.png?raw=true)
 
 ## TODO 
 * Add Authentication 
